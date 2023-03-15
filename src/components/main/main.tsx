@@ -12,7 +12,7 @@ export const Main = () => {
 
   const handleClick = () => {
     if (name.length >= 3) {
-      navigate("/edit/header");
+      navigate("/edit");
       dispatch(addName(name));
     } else {
       setError(true);
