@@ -1,17 +1,31 @@
-.header-edit
+.edit
     min-height: 789px
     background-color: #1b7ac7
     display: flex
+    padding: 30px
     justify-content: center
     align-items: center
     flex-direction: column
-    position: relative
+    div
+        background-color: #1b7ac7
+        display: flex
+        padding: 30px
+        justify-content: center
+        align-items: center
+        position: relative
+        flex-flow: row wrap 
     .container
+        display: flex
+        flex-direction: column
+        align-items: center
+        justify-content: center 
         background-color: #fff
         padding: 20px
         margin: 20px
         box-shadow: 2px 2px 6px black
         border-radius: 8px
+        h1
+            color: #32a4c7
         &-item
             display: flex
             justify-content: center
@@ -19,7 +33,7 @@
             flex-direction: column
             text-align: center
             &-input
-                margin: 20px
+                margin: 5px
                 border: none
                 box-shadow: 2px 2px 6px black
                 background-color: #f3f3f3
@@ -37,6 +51,3 @@
         &:hover
             background-color: green
             color: #fff
-    .modal
-        position: absolute
-        background-color: #fff
