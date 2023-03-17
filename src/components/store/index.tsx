@@ -1,9 +1,11 @@
 import {configureStore} from '@reduxjs/toolkit'
 import nameReducer from './name'
+import boxReducer from './data'
 
 const store = configureStore({
     reducer: {
-        name: nameReducer
+        name: nameReducer,
+        boxData: boxReducer
     }
 })
 

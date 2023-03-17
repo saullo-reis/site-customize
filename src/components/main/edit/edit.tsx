@@ -1,34 +1,42 @@
 import { useState } from "react";
 import "./edit.sass";
+import { BoxTypes, HeaderTypes, TextAndImageType } from "../../../utils/utils";
+import { useDispatch } from "react-redux";
+import { AddBackgroundBox, AddImagesBox, AddQuantityBox, AddTextsBox} from "../../store/data";
+
 export const EditHeader = () => {
-  const[colorBackgroundAndLogo, setColorBackgroundAndLogo] = useState<{
-    background?: string,
-    logo?: string
-  }>({
-    background: "",
-    logo: ""
-  })
+  const dispatch = useDispatch()
+  const [colorBackgroundAndLogo, setColorBackgroundAndLogo] =
+    useState<HeaderTypes>({
+      background: "",
+      logo: "",
+    });
   const [layout, setLayout] = useState<string>("");
   const [error, setError] = useState<boolean>(false);
-  const [box, setBox] = useState<{
-    quantity?: number;
-    images?: string;
-    backgroundBox?: string;
-    texts?: string;
-  }>({ quantity: 0, images: "", backgroundBox: "", texts: "" });
-  const[mainBackground, setMainBackground] = useState<string>("")
-  const [textImage, setTextImage] = useState<{
-    text?: string;
-    imagePosition?: string;
-    image?: string
-  }>({ text: "", imagePosition: "" });
-
-  const[text, setText] = useState<string>("")
+  const [box, setBox] = useState<BoxTypes>({
+    quantity: 0,
+    images: [],
+    backgroundBox: "",
+    texts: [],
+  });
+  const [mainBackground, setMainBackground] = useState<string>("");
+  const [textImage, setTextImage] = useState<TextAndImageType>({
+    text: "",
+    imagePosition: "",
+  });
+  const [text, setText] = useState<string>("");
+  
 
   //ERROR
   const handleClick = () => {
-   console.log('pão')
+    if(layout === 'box'){
+      dispatch(AddBackgroundBox(box.backgroundBox))
+      dispatch(AddImagesBox(box.images))
+      dispatch(AddTextsBox(box.texts));
+      dispatch(AddQuantityBox(box.quantity));
+    }
   };
+
   return (
     <section className="edit">
       <div>
@@ -57,7 +65,6 @@ export const EditHeader = () => {
               placeholder="Digite o endereço da imagem"
             ></input>
           </li>
-          {error === true && <p style={{ color: "red" }}>Algum campo vázio</p>}
         </ul>
 
         {/* MAIN*/}
@@ -68,7 +75,6 @@ export const EditHeader = () => {
             <select
               className="container-item-input"
               onChange={(e) => setLayout(e.target.value)}
-              placeholder="nome da cor em inglês ou em hexadecimal"
             >
               <option>Selecione o layout</option>
               <option value="box">Em box</option>
@@ -96,8 +102,10 @@ export const EditHeader = () => {
                 <input
                   className="container-item-input"
                   type={"text"}
-                  placeholder="Imagens"
-                  onChange={(e) => setBox({ images: e.target.value })}
+                  placeholder="URL das imagens"
+                  onChange={(e) =>
+                    setBox({ images: e.target.value.split(", ") })
+                  }
                 />
 
                 <textarea
@@ -105,8 +113,11 @@ export const EditHeader = () => {
                   rows={10}
                   className="container-item-input"
                   placeholder="Textos"
-                  onChange={(e) => setBox({ texts: e.target.value })}
+                  onChange={(e) =>
+                    setBox({ texts: e.target.value.split(", ") })
+                  }
                 />
+
               </>
             )}
             {layout === "image" && (
@@ -114,12 +125,14 @@ export const EditHeader = () => {
                 <input
                   className="container-item-input"
                   type={"text"}
-                  onChange={(e) => setTextImage({image: e.target.value})}
+                  onChange={(e) => setTextImage({ image: e.target.value })}
                   placeholder="Digite a cor em inglês ou em hexadecimal"
                 ></input>
                 <select
                   placeholder="Imagem posição"
-                  onChange={(e) => setTextImage({ imagePosition: e.target.value })}
+                  onChange={(e) =>
+                    setTextImage({ imagePosition: e.target.value })
+                  }
                 >
                   <option>Posição da imagem:</option>
                   <option value="top">Em Cima</option>
@@ -155,10 +168,11 @@ export const EditHeader = () => {
               placeholder="Digite a cor em inglês ou em hexadecimal"
             ></input>
           </li>
-          {error === true && <p style={{ color: "red" }}>Algum campo vázio</p>}
         </ul>
       </div>
-      <button className="button" onClick={() => handleClick()}>Confirmar</button>
+      <button className="button" onClick={() => handleClick()}>
+        Confirmar
+      </button>
     </section>
   );
 };
