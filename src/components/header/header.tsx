@@ -5,7 +5,9 @@ import "./header.sass";
 
 export const Header = () => {
   const name = useSelector((state: RootState) => state.name.name);
+  const box = useSelector((state: RootState) => state.boxData)
 
+  console.log(box);
   return (
     <section className="header">
       <img
