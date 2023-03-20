@@ -5,7 +5,7 @@ import boxReducer from './data'
 const store = configureStore({
     reducer: {
         name: nameReducer,
-        boxData: boxReducer
+        data: boxReducer
     }
 })
 

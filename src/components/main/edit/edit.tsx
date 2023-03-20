@@ -1,18 +1,22 @@
 import { useState } from "react";
 import "./edit.sass";
 import { BoxTypes, HeaderTypes, TextAndImageType } from "../../../utils/utils";
-import { useDispatch } from "react-redux";
-import { AddBackgroundBox, AddImagesBox, AddQuantityBox, AddTextsBox} from "../../store/data";
+import { useDispatch, useSelector } from "react-redux";
+import { addLayout, addDataHeaderFooter } from "../../store/data";
+// import { AddBackgroundBox, AddImagesBox, AddQuantityBox, AddTextsBox, AddText, AddImageOnText, AddTextOnImage, addLogo, addBackgroundHeaderAndFooter, addBackgroundMain, addLayout} from "../../store/data";
+import { useNavigate } from "react-router-dom";
+import { RootState } from "../../store";
 
 export const EditHeader = () => {
+  const name = useSelector((state: RootState) => state.name.name)
+  const navigate = useNavigate()
   const dispatch = useDispatch()
-  const [colorBackgroundAndLogo, setColorBackgroundAndLogo] =
+  const [headerAndFooterData, setHeaderAndFooterData] =
     useState<HeaderTypes>({
       background: "",
-      logo: "",
+      logo: ""
     });
   const [layout, setLayout] = useState<string>("");
-  const [error, setError] = useState<boolean>(false);
   const [box, setBox] = useState<BoxTypes>({
     quantity: 0,
     images: [],
@@ -23,24 +27,42 @@ export const EditHeader = () => {
   const [textImage, setTextImage] = useState<TextAndImageType>({
     text: "",
     imagePosition: "",
+    image: ""
   });
   const [text, setText] = useState<string>("");
   
 
-  //ERROR
-  const handleClick = () => {
-    if(layout === 'box'){
-      dispatch(AddBackgroundBox(box.backgroundBox))
-      dispatch(AddImagesBox(box.images))
-      dispatch(AddTextsBox(box.texts));
-      dispatch(AddQuantityBox(box.quantity));
-    }
+  //Onclick
+  function handleClick(){
+    dispatch(addLayout(layout));
+    dispatch(addDataHeaderFooter(headerAndFooterData));
+    console.log(headerAndFooterData.background, headerAndFooterData.logo)
+    // switch (layout) {
+    //   case 'box':
+    //     dispatch(AddBackgroundBox(box.backgroundBox));
+    //     dispatch(AddImagesBox(box.images));
+    //     dispatch(AddTextsBox(box.texts));
+    //     dispatch(AddQuantityBox(box.quantity));
+    //     navigate(`/page/${name}`)
+    //     break;
+    //   case 'text':
+    //     dispatch(AddText(text))
+    //     navigate(`/page/${name}`)
+    //     break;
+    //   case 'image':
+    //     dispatch(AddImageOnText(textImage.image))
+    //     dispatch(AddTextOnImage(textImage.text))
+    //     navigate(`/page/${name}`)
+
+    // }
   };
 
   return (
     <section className="edit">
       <div>
+
         {/* HEADER*/}
+
         <ul className="container">
           <h1>Header/Footer</h1>
           <li className="container-item">
@@ -50,7 +72,7 @@ export const EditHeader = () => {
             <input
               className="container-item-input"
               onChange={(e) =>
-                setColorBackgroundAndLogo({ background: e.target.value })
+                setHeaderAndFooterData({ background: e.target.value, logo: headerAndFooterData.logo })
               }
               placeholder="nome da cor em inglês ou em hexadecimal"
             ></input>
@@ -60,7 +82,7 @@ export const EditHeader = () => {
             <input
               className="container-item-input"
               onChange={(e) =>
-                setColorBackgroundAndLogo({ logo: e.target.value })
+                setHeaderAndFooterData({ logo: e.target.value, background: headerAndFooterData.background })
               }
               placeholder="Digite o endereço da imagem"
             ></input>
@@ -68,6 +90,7 @@ export const EditHeader = () => {
         </ul>
 
         {/* MAIN*/}
+
         <ul className="container">
           <h1>Main</h1>
           <li className="container-item">
@@ -81,6 +104,9 @@ export const EditHeader = () => {
               <option value="text">Em texto</option>
               <option value="image">Em texto e imagem</option>
             </select>
+
+            {/* BOX */}
+
             {layout === "box" && (
               <>
                 <input
@@ -120,24 +146,17 @@ export const EditHeader = () => {
 
               </>
             )}
+
+            {/* IMAGE */}
+
             {layout === "image" && (
               <>
                 <input
                   className="container-item-input"
                   type={"text"}
                   onChange={(e) => setTextImage({ image: e.target.value })}
-                  placeholder="Digite a cor em inglês ou em hexadecimal"
+                  placeholder="Digite o endereço da imagem"
                 ></input>
-                <select
-                  placeholder="Imagem posição"
-                  onChange={(e) =>
-                    setTextImage({ imagePosition: e.target.value })
-                  }
-                >
-                  <option>Posição da imagem:</option>
-                  <option value="top">Em Cima</option>
-                  <option value="bottom">Em Baixo</option>
-                </select>
                 <textarea
                   cols={40}
                   rows={10}
@@ -147,6 +166,9 @@ export const EditHeader = () => {
                 />
               </>
             )}
+
+            {/* TEXT */}
+
             {layout === "text" && (
               <textarea
                 cols={40}
