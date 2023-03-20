@@ -5,13 +5,13 @@ import "./header.sass";
 
 export const Header = () => {
   const name = useSelector((state: RootState) => state.name.name);
-  const box = useSelector((state: RootState) => state.boxData)
-
-  console.log(box);
+  const data = useSelector((state: RootState) => state.data.headerAndFooter)
+  console.log(data)
   return (
-    <section className="header">
+    <section className="header"
+    style={{backgroundColor: data.background}}>
       <img
-        src="https://cdn-icons-png.flaticon.com/512/1373/1373255.png"
+        src={data.logo}
         className="header-logo"
       ></img>
       {name !== "none" && (
