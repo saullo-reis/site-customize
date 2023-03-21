@@ -24,6 +24,9 @@ const data = createSlice({
     },
   },
   reducers: {
+    addMainBackground(state, action){
+      state.backgroundMain = action.payload
+    },
     addLayout(state, action) {
       state.layout = action.payload;
     },
@@ -31,19 +34,19 @@ const data = createSlice({
       state.headerAndFooter = action.payload;
     },
     //BOX
-    AddBackgroundBox(state, action) {
-      state.box.backgroundBox = action.payload;
+    AddBoxData(state, action) {
+      state.box = action.payload;
     },
     //TEXT
     AddText(state, action) {
       state.text.text = action.payload;
     },
     //TEXT AND IMAGE
-    AddTextOnImage(state, action) {
-      state.textAndImage.text = action.payload;
+    AddTextAndImage(state, action) {
+      state.textAndImage = action.payload;
     },
   },
 });
 
-export const { addLayout, addDataHeaderFooter } = data.actions;
+export const { addMainBackground, addLayout, addDataHeaderFooter, AddBoxData, AddTextAndImage, AddText } = data.actions;
 export default data.reducer;
