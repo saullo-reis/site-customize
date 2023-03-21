@@ -2,20 +2,26 @@ import { useState } from "react";
 import "./edit.sass";
 import { BoxTypes, HeaderTypes, TextAndImageType } from "../../../utils/utils";
 import { useDispatch, useSelector } from "react-redux";
-import { addLayout, addDataHeaderFooter } from "../../store/data";
-// import { AddBackgroundBox, AddImagesBox, AddQuantityBox, AddTextsBox, AddText, AddImageOnText, AddTextOnImage, addLogo, addBackgroundHeaderAndFooter, addBackgroundMain, addLayout} from "../../store/data";
+import {
+  addLayout,
+  addDataHeaderFooter,
+  AddBoxData,
+  AddTextAndImage,
+  AddText,
+  addMainBackground,
+} from "../../store/data";
 import { useNavigate } from "react-router-dom";
 import { RootState } from "../../store";
 
+
 export const EditHeader = () => {
-  const name = useSelector((state: RootState) => state.name.name)
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
-  const [headerAndFooterData, setHeaderAndFooterData] =
-    useState<HeaderTypes>({
-      background: "",
-      logo: ""
-    });
+  const name = useSelector((state: RootState) => state.name.name);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [headerAndFooterData, setHeaderAndFooterData] = useState<HeaderTypes>({
+    background: "",
+    logo: "",
+  });
   const [layout, setLayout] = useState<string>("");
   const [box, setBox] = useState<BoxTypes>({
     quantity: 0,
@@ -27,40 +33,34 @@ export const EditHeader = () => {
   const [textImage, setTextImage] = useState<TextAndImageType>({
     text: "",
     imagePosition: "",
-    image: ""
+    image: "",
   });
   const [text, setText] = useState<string>("");
-  
 
   //Onclick
-  function handleClick(){
+  function handleClick() {
     dispatch(addLayout(layout));
     dispatch(addDataHeaderFooter(headerAndFooterData));
-    console.log(headerAndFooterData.background, headerAndFooterData.logo)
-    // switch (layout) {
-    //   case 'box':
-    //     dispatch(AddBackgroundBox(box.backgroundBox));
-    //     dispatch(AddImagesBox(box.images));
-    //     dispatch(AddTextsBox(box.texts));
-    //     dispatch(AddQuantityBox(box.quantity));
-    //     navigate(`/page/${name}`)
-    //     break;
-    //   case 'text':
-    //     dispatch(AddText(text))
-    //     navigate(`/page/${name}`)
-    //     break;
-    //   case 'image':
-    //     dispatch(AddImageOnText(textImage.image))
-    //     dispatch(AddTextOnImage(textImage.text))
-    //     navigate(`/page/${name}`)
-
-    // }
-  };
+    dispatch(addMainBackground(mainBackground));
+    
+    switch (layout) {
+      case "box":
+        dispatch(AddBoxData(box));
+        navigate(`/page/${name}`);
+        break;
+      case "text":
+        dispatch(AddText(text));
+        navigate(`/page/${name}`);
+        break;
+      case "image":
+        dispatch(AddTextAndImage(textImage));
+        navigate(`/page/${name}`);
+    }
+  }
 
   return (
     <section className="edit">
       <div>
-
         {/* HEADER*/}
 
         <ul className="container">
@@ -72,7 +72,10 @@ export const EditHeader = () => {
             <input
               className="container-item-input"
               onChange={(e) =>
-                setHeaderAndFooterData({ background: e.target.value, logo: headerAndFooterData.logo })
+                setHeaderAndFooterData({
+                  background: e.target.value,
+                  logo: headerAndFooterData.logo,
+                })
               }
               placeholder="nome da cor em inglês ou em hexadecimal"
             ></input>
@@ -82,7 +85,10 @@ export const EditHeader = () => {
             <input
               className="container-item-input"
               onChange={(e) =>
-                setHeaderAndFooterData({ logo: e.target.value, background: headerAndFooterData.background })
+                setHeaderAndFooterData({
+                  logo: e.target.value,
+                  background: headerAndFooterData.background,
+                })
               }
               placeholder="Digite o endereço da imagem"
             ></input>
@@ -113,7 +119,14 @@ export const EditHeader = () => {
                   className="container-item-input"
                   type={"text"}
                   placeholder="Cor da box"
-                  onChange={(e) => setBox({ backgroundBox: e.target.value })}
+                  onChange={(e) =>
+                    setBox({
+                      backgroundBox: e.target.value,
+                      quantity: box.quantity,
+                      images: box.images,
+                      texts: box.texts,
+                    })
+                  }
                 />
 
                 <input
@@ -121,7 +134,12 @@ export const EditHeader = () => {
                   className="container-item-input"
                   placeholder="Quantidade de boxs"
                   onChange={(e) =>
-                    setBox({ quantity: parseInt(e.target.value) })
+                    setBox({
+                      quantity: parseInt(e.target.value),
+                      backgroundBox: box.backgroundBox,
+                      texts: box.texts,
+                      images: box.images,
+                    })
                   }
                 />
 
@@ -130,7 +148,12 @@ export const EditHeader = () => {
                   type={"text"}
                   placeholder="URL das imagens"
                   onChange={(e) =>
-                    setBox({ images: e.target.value.split(", ") })
+                    setBox({
+                      images: e.target.value.split(", "),
+                      backgroundBox: box.backgroundBox,
+                      quantity: box.quantity,
+                      texts: box.texts,
+                    })
                   }
                 />
 
@@ -140,10 +163,14 @@ export const EditHeader = () => {
                   className="container-item-input"
                   placeholder="Textos"
                   onChange={(e) =>
-                    setBox({ texts: e.target.value.split(", ") })
+                    setBox({
+                      texts: e.target.value.split(", "),
+                      images: box.images,
+                      backgroundBox: box.backgroundBox,
+                      quantity: box.quantity,
+                    })
                   }
                 />
-
               </>
             )}
 
@@ -154,7 +181,7 @@ export const EditHeader = () => {
                 <input
                   className="container-item-input"
                   type={"text"}
-                  onChange={(e) => setTextImage({ image: e.target.value })}
+                  onChange={(e) => setTextImage({ image: e.target.value, text: textImage.text })}
                   placeholder="Digite o endereço da imagem"
                 ></input>
                 <textarea
@@ -162,7 +189,7 @@ export const EditHeader = () => {
                   rows={10}
                   className="container-item-input"
                   placeholder="Texto"
-                  onChange={(e) => setTextImage({ text: e.target.value })}
+                  onChange={(e) => setTextImage({ text: e.target.value, image: textImage.image })}
                 />
               </>
             )}
