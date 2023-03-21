@@ -15,3 +15,8 @@ export interface HeaderTypes {
   background?: string;
   logo?: string;
 }
+
+export interface BoxDataTypes {
+  image: "";
+  text: "";
+}
