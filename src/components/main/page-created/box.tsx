@@ -2,16 +2,17 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { useEffect, useState } from "react";
 import { BoxDataTypes } from "../../../utils/utils";
+import "./page.sass"
 
 export const Box = () => {
   const [allData, setAllData] = useState<BoxDataTypes[]>([]);
-  const boxData = useSelector((state: RootState) => state.data.box);
+  const boxData = useSelector((state: RootState) => state.data);
 
   const createObjectOfBoxData = () => {
-    var array: BoxDataTypes[] = [];
+    let array: BoxDataTypes[] = [];
 
-    for (let i = 0; i < boxData.quantity; ++i) {
-      array.push({ image: boxData.images[i], text: boxData.texts[i]})
+    for (let i = 0; i < boxData.box.quantity; ++i) {
+      array.push({ image: boxData.box.images[i], text: boxData.box.texts[i] });
     }
 
     setAllData(array);
@@ -19,8 +20,24 @@ export const Box = () => {
 
   useEffect(() => {
     createObjectOfBoxData();
-  },[])
+  }, []);
 
-  console.log(allData)
-  return <></>;
+  console.log(boxData);
+  return (
+    <section style={{backgroundColor: boxData.backgroundMain}} className="boxs">
+      <ul className="boxs-container">
+        {allData.map((element, index) => {
+          return (
+            <li style={{backgroundColor: boxData.box.backgroundBox}} key={index} className="boxs-container-item">
+              <img
+                className="boxs-container-item-image"
+                src={element.image}
+              ></img>
+              <p className="boxs-container-item-text">{element.text}</p>
+            </li>
+          );
+        })}
+      </ul>
+    </section>
+  );
 };
