@@ -22,7 +22,6 @@ export const Box = () => {
     createObjectOfBoxData();
   }, []);
 
-  console.log(boxData);
   return (
     <section style={{backgroundColor: boxData.backgroundMain}} className="boxs">
       <ul className="boxs-container">

@@ -3,7 +3,7 @@ import { RootState } from "../../store"
 
 export const TextAndImage = () => {
     const data = useSelector((state: RootState) => state.data)
-    console.log(data)
+    
     return (
       <section className="text-and-image">
         <img

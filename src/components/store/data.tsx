@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const data = createSlice({
   name: "data",
+  
   initialState: {
     layout: "",
     backgroundMain: "",
@@ -23,6 +24,7 @@ const data = createSlice({
       text: "",
     },
   },
+
   reducers: {
     addMainBackground(state, action){
       state.backgroundMain = action.payload

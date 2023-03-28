@@ -13,7 +13,6 @@ import {
 import { useNavigate } from "react-router-dom";
 import { RootState } from "../../store";
 
-
 export const EditHeader = () => {
   const name = useSelector((state: RootState) => state.name.name);
   const navigate = useNavigate();
@@ -42,20 +41,18 @@ export const EditHeader = () => {
     dispatch(addLayout(layout));
     dispatch(addDataHeaderFooter(headerAndFooterData));
     dispatch(addMainBackground(mainBackground));
-    
+
     switch (layout) {
       case "box":
         dispatch(AddBoxData(box));
-        navigate(`/page/${name}`);
         break;
       case "text":
         dispatch(AddText(text));
-        navigate(`/page/${name}`);
         break;
       case "image":
         dispatch(AddTextAndImage(textImage));
-        navigate(`/page/${name}`);
     }
+    navigate(`/page/${name}`);
   }
 
   return (
@@ -181,7 +178,12 @@ export const EditHeader = () => {
                 <input
                   className="container-item-input"
                   type={"text"}
-                  onChange={(e) => setTextImage({ image: e.target.value, text: textImage.text })}
+                  onChange={(e) =>
+                    setTextImage({
+                      image: e.target.value,
+                      text: textImage.text,
+                    })
+                  }
                   placeholder="Digite o endereço da imagem"
                 ></input>
                 <textarea
@@ -189,7 +191,12 @@ export const EditHeader = () => {
                   rows={10}
                   className="container-item-input"
                   placeholder="Texto"
-                  onChange={(e) => setTextImage({ text: e.target.value, image: textImage.image })}
+                  onChange={(e) =>
+                    setTextImage({
+                      text: e.target.value,
+                      image: textImage.image,
+                    })
+                  }
                 />
               </>
             )}
