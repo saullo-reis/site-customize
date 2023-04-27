@@ -12,6 +12,7 @@ import {
 } from "../../store/data";
 import { useNavigate } from "react-router-dom";
 import { RootState } from "../../store";
+import { SketchPicker } from "react-color";
 
 export const EditHeader = () => {
   const name = useSelector((state: RootState) => state.name.name);
@@ -66,19 +67,21 @@ export const EditHeader = () => {
             <h2 className="container-item-text">
               Modificar a cor do header/footer:
             </h2>
-            <input
-              className="container-item-input"
-              onChange={(e) =>
+            <h3 style={{ margin: "20px" }}>Modificar cor do Footer/Header</h3>
+            <SketchPicker
+              color={headerAndFooterData.background}
+              onChangeComplete={(e) =>
                 setHeaderAndFooterData({
-                  background: e.target.value,
+                  background: e.hex,
                   logo: headerAndFooterData.logo,
                 })
               }
-              placeholder="nome da cor em inglês ou em hexadecimal"
-            ></input>
+            />
           </li>
           <li className="container-item">
-            <h2 className="container-item-text">Modificar a ícone da logo:</h2>
+            <h2 style={{ margin: "20px" }} className="container-item-text">
+              Modificar a ícone da logo:
+            </h2>
             <input
               className="container-item-input"
               onChange={(e) =>
@@ -112,21 +115,22 @@ export const EditHeader = () => {
 
             {layout === "box" && (
               <>
-                <input
-                  className="container-item-input"
-                  type={"text"}
-                  placeholder="Cor da box"
-                  onChange={(e) =>
+                <h3 style={{ margin: "20px" }} className="container-item-text">
+                  Cor da box
+                </h3>
+                <SketchPicker
+                  color={box.backgroundBox}
+                  onChangeComplete={(e) =>
                     setBox({
-                      backgroundBox: e.target.value,
+                      backgroundBox: e.hex,
                       quantity: box.quantity,
                       images: box.images,
                       texts: box.texts,
                     })
                   }
                 />
-
                 <input
+                  style={{ margin: "20px" }}
                   type={"text"}
                   className="container-item-input"
                   placeholder="Quantidade de boxs"
@@ -143,7 +147,7 @@ export const EditHeader = () => {
                 <input
                   className="container-item-input"
                   type={"text"}
-                  placeholder="URL das imagens"
+                  placeholder="URL das imagens separe com vírgulas"
                   onChange={(e) =>
                     setBox({
                       images: e.target.value.split(", "),
@@ -155,10 +159,11 @@ export const EditHeader = () => {
                 />
 
                 <textarea
+                  style={{ margin: "20px" }}
                   cols={40}
                   rows={10}
                   className="container-item-input"
-                  placeholder="Textos"
+                  placeholder="Textos separe com vírgulas"
                   onChange={(e) =>
                     setBox({
                       texts: e.target.value.split(", "),
@@ -217,12 +222,10 @@ export const EditHeader = () => {
             <h2 className="container-item-text">
               Background da página principal:
             </h2>
-            <input
-              className="container-item-input"
-              type={"text"}
-              onChange={(e) => setMainBackground(e.target.value)}
-              placeholder="Digite a cor em inglês ou em hexadecimal"
-            ></input>
+            <SketchPicker
+              color={mainBackground}
+              onChangeComplete={(e) => setMainBackground(e.hex)}
+            />
           </li>
         </ul>
       </div>
