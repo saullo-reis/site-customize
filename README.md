@@ -12,7 +12,7 @@
 ## Tecnologias
 - Typescript
 - Vite
-- Redux-ToolKit
+- Redux ToolKit
 - Sass
 - ReactJs
 - React-Router-Dom
